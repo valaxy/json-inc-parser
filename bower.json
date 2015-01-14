@@ -1,0 +1,20 @@
+{
+  "name": "json-inc-parser",
+  "version": "0.0.0",
+  "homepage": "https://github.com/valaxy/json-inc-parser",
+  "authors": [
+    "valaxy <valaxy.tian@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "qunit": "~1.16.0",
+    "seajs": "~2.3.0"
+  }
+}
