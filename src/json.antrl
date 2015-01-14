@@ -1,0 +1,18 @@
+FALSE          = "false"
+NULL           = "null"
+TRUE           = "true"
+NUMBER         = ...
+STRING         = ...
+BEGIN_OBJECT   = "{"
+END_OBJECT     = "}"
+COMMA          = ","
+NAME_SEPARATOR = ":"
+BEGIN_ARRAY    = "["
+END_ARRAY      = "]"
+
+
+
+value = FALSE | NULL | TRUE | object | array | NUMBER | STRING
+object = BEGIN_OBJECT (member (COMMA member)*)? END_OBJECT
+member = STRING NAME_SEPARATOR value
+array = BEGIN_ARRAY (value *(COMMA value))? END_ARRAY
