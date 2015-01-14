@@ -7,12 +7,10 @@ define(function () {
 		this._isTerminal = true
 	}
 
-	Part.create = function (id, isTerminal, succ) {
-		var part = new Part
-		part._id = id
-		part._isTerminal = isTerminal
-		part._succ = succ
-		return part
+	Part.prototype.init = function (id, isTerminal, succ) {
+		this._id = id
+		this._isTerminal = isTerminal
+		this._succ = succ
 	}
 
 
@@ -36,7 +34,8 @@ define(function () {
 		QUnit.module('part')
 
 		QUnit.test('create()/id()/succ()/isTerminal()', function (assert) {
-			var p = Part.create(0, false, [11, 22, 33])
+			var p = new Part
+			p.init(0, false, [11, 22, 33])
 
 			assert.equal(p.id(), 0)
 			assert.deepEqual(p.isTerminal(), false)
