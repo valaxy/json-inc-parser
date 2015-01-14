@@ -3,5 +3,6 @@ define(function (require, exports) {
 		require('../src/ast/node')
 		require('../src/parser/part')
 		require('../src/parser/rule')
+		require('../src/parser/object')
 	}
 })
