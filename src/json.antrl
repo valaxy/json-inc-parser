@@ -1,18 +1,17 @@
-FALSE          = "false"
-NULL           = "null"
-TRUE           = "true"
-NUMBER         = ...
-STRING         = ...
-BEGIN_OBJECT   = "{"
-END_OBJECT     = "}"
-COMMA          = ","
-NAME_SEPARATOR = ":"
-BEGIN_ARRAY    = "["
-END_ARRAY      = "]"
+BOOLEAN        = "false" | "true"    ; 1
+NULL           = "null"              ; 2
+NUMBER         = ...                 ; 3
+STRING         = ...                 ; 4
+BEGIN_OBJECT   = "{"                 ; 5
+END_OBJECT     = "}"                 ; 6
+COMMA          = ","                 ; 7
+NAME_SEPARATOR = ":"                 ; 8
+BEGIN_ARRAY    = "["                 ; 9
+END_ARRAY      = "]"                 ; 10
 
 
 
-value = FALSE | NULL | TRUE | object | array | NUMBER | STRING
+value = BOOLEAN | NULL | object | array | NUMBER | STRING
 object = BEGIN_OBJECT (member (COMMA member)*)? END_OBJECT
 member = STRING NAME_SEPARATOR value
 array = BEGIN_ARRAY (value *(COMMA value))? END_ARRAY
