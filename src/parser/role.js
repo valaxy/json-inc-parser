@@ -2,17 +2,15 @@ define(function () {
 
 	// role combines of rule
 	var Role = function () {
-		this.id = -1
-		this._succ = []
-		this._isTerminal = true
+		this._id = -1
+		this._part = null
 	}
 
-	Role.create = function (id, isTerminal, succ) {
-		var r = new Role
-		r._id = id
-		r._isTerminal = isTerminal
-		r._succ = succ
-		return r
+	Role.create = function (id, part) {
+		var role = new Role
+		role._id = id
+		role._part = part
+		return role
 	}
 
 
@@ -21,15 +19,15 @@ define(function () {
 	}
 
 
-	// undefined/null or role
-	Role.prototype.succ = function (token) {
-		return this._succ[token.type()]
-	}
-
-
-	Role.prototype.isTerminal = function () {
-		return this._isTerminal
-	}
+	//// undefined/null or role
+	//Role.prototype.succ = function (token) {
+	//	return this._part.succ(token.type())
+	//}
+	//
+	//
+	//Role.prototype.isTerminal = function () {
+	//	return this._part.isTerminal()
+	//}
 
 	return Role
 })
