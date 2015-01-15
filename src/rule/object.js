@@ -53,7 +53,7 @@ define(function (require, exports) {
 		QUnit.module('object')
 
 		QUnit.test('roles', function (assert) {
-			assert.equal(roles.length, 6)
+			assert.equal(exports.roles.length, 6)
 		})
 	}
 

@@ -1,5 +1,5 @@
 define(function (require, exports) {
-	// value = FALSE | NULL | TRUE | object | array | NUMBER | STRING
+	// value = BOOLEAN[1] | NULL[2] | object[3] | array[4] | NUMBER[5] | STRING[6]
 
 	var Token = require('../../model/token')
 	var Role = require('./role')
@@ -24,14 +24,25 @@ define(function (require, exports) {
 		}
 	}
 
-	exports.role = [
-		null,
-		Role.create(1, []),
-		Role.create(2, []),
-		Role.create(3, [null, null, null, null, null, 5]),
-		Role.create(4, [null, null, null, null, null, null, null, null, null, 9]),
-		Role.create(5, []),
-		Role.create(6, [])
-	]
+
+	var roles = exports.roles = Role.createMany(7)
+	Role.init(roles, [
+		[0, null, [null, roles[1], roles[2], roles[5], roles[6], roles[3], null, null, null, roles[4]]],
+		[1, rule.parts[1], []],
+		[2, rule.parts[2], []],
+		[3, rule.parts[11], []],
+		[4, rule.parts[13], []],
+		[5, rule.parts[3], []],
+		[6, rule.parts[4], []]
+	])
+
+
+	if (typeof QUnit != 'undefined') {
+		QUnit.module('value')
+
+		QUnit.test('roles', function (assert) {
+			assert.equal(exports.roles.length, 7)
+		})
+	}
 
 })
