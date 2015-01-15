@@ -15,8 +15,9 @@ define(function () {
 		return ary
 	}
 
-	Role.init = function (roles, paras) {
-		for (var i = 0; i < roles; i++) {
+	Role.init = function (roles, initParas) {
+		for (var i = 0; i < roles.length; i++) {
+			var paras = initParas[i]
 			roles[i].init(paras[0], paras[1], paras[2])
 		}
 		return roles

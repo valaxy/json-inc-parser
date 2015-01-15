@@ -1,6 +1,6 @@
 define(function () {
 
-	// bnf part
+	// bnf part: terminal or nonterminal
 	var Part = function () {
 		this._id = -1
 		this._succ = []
@@ -48,7 +48,7 @@ define(function () {
 	if (typeof QUnit != 'undefined') {
 		QUnit.module('part')
 
-		QUnit.test('create()/id()/succ()/isTerminal()', function (assert) {
+		QUnit.test('id()/succ()/isTerminal()', function (assert) {
 			var p = new Part
 			p.init(0, false, [11, 22, 33])
 

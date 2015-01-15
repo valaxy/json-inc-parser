@@ -1,33 +1,37 @@
-define(function (require, exports) {
+define(function (require) {
 	var Node = require('./node')
 
 	var PartNode = function () {
 		this._role = null
-		this._rule = null
 		this._token = null
 	}
 
 	PartNode.prototype = new Node
 
 
-	PartNode.create = function (part) {
-		this._rule = null // calc from part
-		this._role = null // calc from rule
+	PartNode.create = function (role) {
+		var node = new PartNode
+		node._role = role
+		return node
 	}
 
 
-	// 生成一条从当前节点指向leaf的路径, leaf没有被加入任何结构
-	// 根据有效后继表来生成
-	// 返回token组成的节点
+	// 生成一条从当前节点指向token的路径, token没有被加入任何结构
+	// 根据[有效后继角色表]来生成
+	// 返回token形成的节点
 	// 这里其实只需要用到part
 	PartNode.prototype._completePath = function (token) {
+		if (this._role.part().isTerminal()) {
+			return this // 特殊情况
+		}
+
 		var current = this
 		while (true) {
-			var nextPart = current._role.part().succ(token)
-			var child = PartNode.create(current._rule.part[0])
-			current.appendChild(child)
+			var nextRole = current._role.part().succ(token)
+			var child = PartNode.create(nextRole)
+			current.addChild(child)
 			current = child
-			if (nextPart.isTerminal()) {
+			if (nextRole.part().isTerminal()) {
 				break
 			}
 		}

@@ -1,6 +1,7 @@
 define(function (require, exports) {
 	var jsonParts = require('./json-parts')
 	var jsonRoles = require('./json-roles')
+	var rule = require('../rule')
 
 	exports.bind = function () {
 		jsonParts.build()
@@ -10,11 +11,12 @@ define(function (require, exports) {
 
 
 	if (typeof QUnit != 'undefined') {
-		QUnit.module('json-bind')
+		QUnit.module('json-rule')
 
 		QUnit.test('no throw', function (assert) {
 			exports.bind()
-			assert.ok(true)
+			assert.equal(rule.parts.length, 15)
+			assert.equal(rule.value.roles.length, 7)
 		})
 	}
 
