@@ -2,8 +2,8 @@ define(function (require, exports) {
 	// object = BEGIN_OBJECT (member (VALUE_SEPARATOR member)*)? END_OBJECT
 	//          1             2       3               4          5
 
-	var Node = require('../ast/node')
-	var Token = require('../model/token')
+	var Node = require('../../ast/node')
+	var Token = require('../../model/token')
 	var Role = require('./role')
 	var rule = require('./rule')
 
