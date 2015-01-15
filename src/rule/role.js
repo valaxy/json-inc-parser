@@ -44,15 +44,26 @@ define(function () {
 	}
 
 
-	//// undefined/null or role
-	//Role.prototype.succ = function (token) {
-	//	return this._part.succ(token.type())
-	//}
+	if (typeof QUnit != 'undefined') {
+		QUnit.module('Role')
 
+		QUnit.test('createMany()/init()/id()/part()/next()', function (assert) {
+			var roles = Role.createMany(2)
+			Role.init(roles, [
+				[1, 101, [11, 22, 33]],
+				[2, 202, []]
+			])
 
-	//Role.prototype.isTerminal = function () {
-	//	return this._part.isTerminal()
-	//}
+			assert.equal(roles.length, 2)
+			assert.equal(roles[0].id(), 1)
+			assert.equal(roles[0].part(), 101)
+			assert.equal(roles[0].next({
+				type: function () {
+					return 1
+				}
+			}), 22)
+		})
+	}
 
 	return Role
 })
