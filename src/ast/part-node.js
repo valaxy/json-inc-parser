@@ -3,7 +3,6 @@ define(function (require) {
 
 	var PartNode = function () {
 		this._role = null
-		this._token = null
 	}
 
 	PartNode.prototype = new Node
@@ -47,15 +46,15 @@ define(function (require) {
 	//      - 不是最终角色, 有问题
 	// 语法分析树的操作
 	//
-	// 如果出现语法错误返回null, 否则返回
+	// 如果出现语法错误返回null, 否则返回token形成的节点
 	PartNode.prototype.astAppendNextLeaf = function (token) {
-		var topNode = this._role.processNextOnly(token)
-		if (topNode) {
-			this.appendBrother(topNode)
-			topNode._completePath(token)
-			return topNode
-		} else if (this._role.isEnd()) {
-			return this.parent()._role.astAppendNextLeaf(token)
+		var brotherRole = this._role.next(token)
+		if (brotherRole) {
+			var brother = PartNode.create(brotherRole)
+			this.appendBrother(brother)
+			return brother._completePath(token)
+		} else if (this._role.part().isTerminal()) {
+			return this.parent().astAppendNextLeaf(token)
 		} else {
 			return null // grammar error
 		}
