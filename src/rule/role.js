@@ -19,6 +19,7 @@ define(function () {
 		for (var i = 0; i < roles; i++) {
 			roles[i].init(paras[0], paras[1], paras[2])
 		}
+		return roles
 	}
 
 	Role.prototype.init = function (id, part, next) {
@@ -34,6 +35,11 @@ define(function () {
 
 	Role.prototype.part = function () {
 		return this._part
+	}
+
+	// 有效有兄弟角色表
+	Role.prototype.next = function (token) {
+		return this._next[token.type()]
 	}
 
 

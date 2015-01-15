@@ -7,6 +7,21 @@ define(function () {
 		this._isTerminal = true
 	}
 
+	Part.createMany = function (times) {
+		var ary = [null]
+		for (var i = 1; i < times; i++) {
+			ary.push(new Part)
+		}
+		return ary
+	}
+
+	Part.init = function (parts, initParas) {
+		for (var i = 1; i < parts.length; i++) {
+			var paras = initParas[i]
+			parts[i].init(paras[0], paras[1], paras[2])
+		}
+	}
+
 	Part.prototype.init = function (id, isTerminal, succ) {
 		this._id = id
 		this._isTerminal = isTerminal

@@ -4,7 +4,25 @@ define(function (require, exports) {
 
 	exports.build = function () {
 		rule.parts = Part.createMany(1 + 14)
+		_.extend(rule.parts, {
+			BOOLEAN: rule.parts[1],
+			NULL: rule.parts[2],
+			NUMBER: rule.parts[3],
+			STRING: rule.parts[4],
+			BEGIN_OBJECT: rule.parts[5],
+			END_OBJECT: rule.parts[6],
+			COMMA: rule.parts[7],
+			NAME_SEPARATOR: rule.parts[8],
+			BEGIN_ARRAY: rule.parts[9],
+			END_ARRAY: rule.parts[10],
+
+			object: rule.parts[11],
+			member: rule.parts[12],
+			array: rule.parts[13],
+			value: rule.parts[14]
+		})
 	}
+
 
 	exports.init = function () {
 		Part.init(rule.parts, [
