@@ -16,5 +16,8 @@
   "devDependencies": {
     "qunit": "~1.16.0",
     "seajs": "~2.3.0"
+  },
+  "dependencies": {
+    "eventEmitter": "~4.2.11"
   }
 }

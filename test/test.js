@@ -4,5 +4,6 @@ define(function (require, exports) {
 		require('../src/parser/part')
 		require('../src/parser/rule')
 		require('../src/parser/object')
+		require('../src/editor/editor')
 	}
 })
