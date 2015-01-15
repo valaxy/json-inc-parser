@@ -53,7 +53,7 @@ define(function (require) {
 			var brother = PartNode.create(brotherRole)
 			this.appendBrother(brother)
 			return brother._completePath(token)
-		} else if (this._role.part().isTerminal()) {
+		} else if (this._role.isEnd()) {
 			return this.parent().astAppendNextLeaf(token)
 		} else {
 			return null // grammar error

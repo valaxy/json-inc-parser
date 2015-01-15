@@ -33,7 +33,8 @@ define(function (require) {
 		assert.equal(leaf._role, rule.array.roles[1])
 	})
 
-	QUnit.test('astAppendNextLeaf():a case', function (assert) {
+
+	QUnit.test('astAppendNextLeaf():a small case', function (assert) {
 		// member -> "n1" : value(n3)(+)
 		// n3 -> "n4"(+)
 		var root = PartNode.create(rule.object.roles[2])
@@ -44,5 +45,38 @@ define(function (require) {
 
 		var n3 = n2.astAppendNextLeaf(Token.create(Token.Type.STRING))
 		assert.equal(n3._role, rule.value.roles[6])
+	})
+
+	QUnit.test('astAppendNextLeaf():a long object', function (assert) {
+		// object -> { "n1": { "n4": 6 } }
+		var root = PartNode.create(rule.value.roles[3])
+		var n0 = PartNode.create(rule.object.roles[1])
+		root.addChild(n0)
+
+		var leaf = n0.astAppendNextLeaf(Token.create(Token.Type.STRING))
+		assert.equal(leaf._role, rule.member.roles[1])
+
+		leaf = leaf.astAppendNextLeaf(Token.create(Token.Type.NAME_SEPARATOR))
+		assert.equal(leaf._role, rule.member.roles[2])
+
+		leaf = leaf.astAppendNextLeaf(Token.create(Token.Type.BEGIN_OBJECT))
+		assert.equal(leaf._role, rule.object.roles[1])
+
+		leaf = leaf.astAppendNextLeaf(Token.create(Token.Type.STRING))
+		assert.equal(leaf._role, rule.member.roles[1])
+
+		leaf = leaf.astAppendNextLeaf(Token.create(Token.Type.NAME_SEPARATOR))
+		assert.equal(leaf._role, rule.member.roles[2])
+
+		leaf = leaf.astAppendNextLeaf(Token.create(Token.Type.NUMBER))
+		assert.equal(leaf._role, rule.value.roles[5])
+		assert.equal(leaf.parent()._role, rule.member.roles[3])
+
+		leaf = leaf.astAppendNextLeaf(Token.create(Token.Type.END_OBJECT))
+		assert.equal(leaf._role, rule.object.roles[5])
+
+		leaf = leaf.astAppendNextLeaf(Token.create(Token.Type.END_OBJECT))
+		assert.equal(leaf._role, rule.object.roles[5])
+
 	})
 })
