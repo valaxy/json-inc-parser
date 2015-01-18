@@ -1,5 +1,4 @@
 define(function () {
-
 	var Node = function () {
 		this._parent = null
 		this._children = []
@@ -10,10 +9,9 @@ define(function () {
 	}
 
 
-
-	Node.prototype._deepestLeftNode = function () {
-
-	}
+	//Node.prototype._deepestLeftNode = function () {
+	//
+	//}
 
 
 	/**
@@ -35,9 +33,13 @@ define(function () {
 	/**
 	 * 添加一个儿子节点到最后
 	 */
-	Node.prototype.addChild = function (child) {
-		this.children().push(child)
-		child._parent = this
+	Node.prototype.addChild = function (child /** ... **/) {
+		for (var i in arguments) {
+			var child = arguments[i]
+			this.children().push(child)
+			child._parent = this
+		}
+		return this
 	}
 
 	/**
@@ -61,6 +63,52 @@ define(function () {
 		}
 	}
 
+	/**
+	 * is same structure with another tree
+	 * @param node
+	 * @returns {boolean}
+	 */
+	Node.prototype.isSameStructure = function (node) {
+		if (this.children().length != node.children().length) {
+			return false
+		}
+
+		for (var i in this.children()) {
+			var compare = this.children()[i].isSameStructure(node.children()[i])
+			if (!compare) {
+				return false
+			}
+		}
+
+		return true
+	}
+
+
+	/**
+	 * print a xml tree, a debug method
+	 */
+	Node.prototype.toString = function () {
+		var queue = [{
+			node: this,
+			deep: 0
+		}]
+		var str = ''
+
+		while (queue.length > 0) {
+			var element = queue.shift()
+			str += s.repeat(' ', element.deep * 4) + 'node' + '\n'
+			for (var i in element.node.children()) {
+				var child = element.node.children()[i]
+				queue.push({
+					node: child,
+					deep: element.deep + 1
+				})
+			}
+		}
+		return str
+	}
+
+
 	if (typeof QUnit != 'undefined') {
 		QUnit.module('Node')
 
@@ -69,8 +117,7 @@ define(function () {
 			var n1 = Node.create()
 			var n2 = Node.create()
 			var n3 = Node.create()
-			root.addChild(n1)
-			root.addChild(n2)
+			root.addChild(n1, n2)
 			n2.addChild(n3)
 
 			assert.equal(n1.parent(), root)
@@ -106,6 +153,19 @@ define(function () {
 			assert.equal(root.children()[1], n1)
 			assert.equal(root.children()[2], n2)
 			assert.equal(n1.parent(), root)
+		})
+
+		QUnit.test('isSameStructure()', function (assert) {
+			var root = Node.create()
+			var n0 = Node.create()
+			var n1 = Node.create()
+			var n2 = Node.create()
+			root.addChild(n0)
+			root.addChild(n1)
+			n1.addChild(n2)
+
+			assert.ok(root.isSameStructure(root))
+			assert.ok(!root.isSameStructure(n2))
 		})
 	}
 

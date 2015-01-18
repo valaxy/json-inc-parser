@@ -3,6 +3,7 @@ define(function (require) {
 	var rule = require('src/rule/rule')
 
 	var Token = require('src/model/token')
+	var Node = require('src/ast/node')
 	var PartNode = require('src/ast/part-node')
 
 	json.bind()
@@ -52,7 +53,7 @@ define(function (require) {
 		var root = PartNode.create(rule.value.roles[3])
 		var n0 = PartNode.create(rule.object.roles[1])
 		root.addChild(n0)
-
+		
 		var leaf = n0.astAppendNextLeaf(Token.create(Token.Type.STRING))
 		assert.equal(leaf._role, rule.member.roles[1])
 
@@ -78,5 +79,20 @@ define(function (require) {
 		leaf = leaf.astAppendNextLeaf(Token.create(Token.Type.END_OBJECT))
 		assert.equal(leaf._role, rule.object.roles[5])
 
+		// build a tree to compare
+		// object1 -> { member1 }
+		// member1 -> "n1" : value1
+		// value1  -> object2
+		// object2 -> { member2 }
+		// member2 -> "n4" : value2
+		// value2  -> 6
+		var value2 = Node.create().addChild(Node.create())
+		var member2 = Node.create().addChild(Node.create(), Node.create(), value2)
+		var object2 = Node.create().addChild(Node.create(), member2, Node.create())
+		var value1 = Node.create().addChild(object2)
+		var member1 = Node.create().addChild(Node.create(), Node.create(), value1)
+		var object1 = Node.create().addChild(Node.create(), member1, Node.create())
+
+		assert.ok(root.isSameStructure(object1))
 	})
 })

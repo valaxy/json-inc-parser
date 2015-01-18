@@ -1,6 +1,15 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><title>QUnit test</title><link rel="stylesheet" href="../bower_components/qunit/qunit/qunit.css"></head><body><div id="qunit"></div><div id="qunit-fixture"></div><script src="../bower_components/qunit/qunit/qunit.js"></script><script src="../bower_components/seajs/dist/sea.js"></script><script src="../bower_components/eventEmitter/EventEmitter.min.js"></script><script src="../bower_components/underscore/underscore-min.js"></script><!-- startup--><script>seajs.config({
-    base: '../'
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>QUnit test</title><link rel="stylesheet" href="../bower_components/qunit/qunit/qunit.css"></head><body><div id="qunit"></div><div id="qunit-fixture"></div><script src="../bower_components/qunit/qunit/qunit.js"></script><!--script(src="../bower_components/seajs/dist/sea.js")--><script src="../bower_components/eventEmitter/EventEmitter.min.js"></script><script src="../bower_components/underscore/underscore-min.js"></script><script src="../bower_components/underscore.string/dist/underscore.string.min.js"></script><script src="../bower_components/requirejs/require.js"></script><script>require.config({
+    baseUrl: '../'
 })
-seajs.use(['./test'], function (test) {
+require(['test/test'], function (test) {
     test.init()
-})</script></body></html>
+})
+
+
+//                underscore: 'bower_components/underscore/underscore-min',
+//                shim: {
+//                    underscore: {
+//                        exports: '_'
+//                    }
+//                }
+</script><!--// startup--><!--script.--><!--    seajs.config({--><!--        base: '../'--><!--    })--><!--    seajs.use(['./test'], function (test) {--><!--        test.init()--><!--    })--></body></html>

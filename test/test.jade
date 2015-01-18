@@ -9,16 +9,33 @@ html
         div#qunit-fixture
 
         script(src="../bower_components/qunit/qunit/qunit.js")
-        script(src="../bower_components/seajs/dist/sea.js")
+        //script(src="../bower_components/seajs/dist/sea.js")
         script(src="../bower_components/eventEmitter/EventEmitter.min.js")
         script(src="../bower_components/underscore/underscore-min.js")
+        script(src="../bower_components/underscore.string/dist/underscore.string.min.js")
+        script(src="../bower_components/requirejs/require.js")
 
-
-        // startup
         script.
-            seajs.config({
-                base: '../'
+            require.config({
+                baseUrl: '../'
             })
-            seajs.use(['./test'], function (test) {
+            require(['test/test'], function (test) {
                 test.init()
             })
+
+
+            //                underscore: 'bower_components/underscore/underscore-min',
+            //                shim: {
+            //                    underscore: {
+            //                        exports: '_'
+            //                    }
+            //                }
+
+        //// startup
+        //script.
+        //    seajs.config({
+        //        base: '../'
+        //    })
+        //    seajs.use(['./test'], function (test) {
+        //        test.init()
+        //    })

@@ -3,13 +3,15 @@ define(function (require) {
 
 	var PartNode = function () {
 		this._role = null
+		this._parent = null
+		this._children = []
 	}
 
-	PartNode.prototype = new Node
+	_.extend(PartNode.prototype, Node.prototype)
 
 
 	PartNode.create = function (role) {
-		var node = new PartNode
+		var node = new PartNode()
 		node._role = role
 		return node
 	}

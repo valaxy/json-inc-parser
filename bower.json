@@ -19,6 +19,8 @@
   },
   "dependencies": {
     "eventEmitter": "~4.2.11",
-    "underscore": "~1.7.0"
+    "underscore": "~1.7.0",
+    "underscore.string": "~3.0.0",
+    "requirejs": "~2.1.15"
   }
 }
