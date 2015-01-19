@@ -1,11 +1,11 @@
 define(function () {
-	var Node = function () {
+	var TreeNode = function () {
 		this._parent = null
 		this._children = []
 	}
 
-	Node.create = function () {
-		return new Node()
+	TreeNode.create = function () {
+		return new TreeNode()
 	}
 
 
@@ -17,7 +17,7 @@ define(function () {
 	/**
 	 * 获取父亲节点
 	 */
-	Node.prototype.parent = function () {
+	TreeNode.prototype.parent = function () {
 		return this._parent
 	}
 
@@ -25,7 +25,7 @@ define(function () {
 	/**
 	 * 获取儿子节点数组
 	 */
-	Node.prototype.children = function () {
+	TreeNode.prototype.children = function () {
 		return this._children
 	}
 
@@ -33,7 +33,7 @@ define(function () {
 	/**
 	 * 添加一个儿子节点到最后
 	 */
-	Node.prototype.addChild = function (child /** ... **/) {
+	TreeNode.prototype.addChild = function (child /** ... **/) {
 		for (var i in arguments) {
 			var child = arguments[i]
 			this.children().push(child)
@@ -45,7 +45,7 @@ define(function () {
 	/**
 	 * 添加一个儿子节点到指定位置
 	 */
-	Node.prototype.addChildAt = function (i, child) {
+	TreeNode.prototype.addChildAt = function (i, child) {
 		this.children().splice(i, 0, child)
 		child._parent = this
 	}
@@ -54,7 +54,7 @@ define(function () {
 	/**
 	 * 添加一个兄弟节点到直接相邻的后面
 	 */
-	Node.prototype.appendBrother = function (brother) {
+	TreeNode.prototype.appendBrother = function (brother) {
 		var brothers = this.parent().children()
 		for (var i in brothers) {
 			if (brothers[i] == this) {
@@ -68,7 +68,7 @@ define(function () {
 	 * @param node
 	 * @returns {boolean}
 	 */
-	Node.prototype.isSameStructure = function (node) {
+	TreeNode.prototype.isSameStructure = function (node) {
 		if (this.children().length != node.children().length) {
 			return false
 		}
@@ -87,7 +87,7 @@ define(function () {
 	/**
 	 * print a xml tree, a debug method
 	 */
-	Node.prototype.toString = function () {
+	TreeNode.prototype.toString = function () {
 		var queue = [{
 			node: this,
 			deep: 0
@@ -109,14 +109,19 @@ define(function () {
 	}
 
 
+	TreeNode.prototype.remove = function () {
+
+	}
+
+
 	if (typeof QUnit != 'undefined') {
 		QUnit.module('Node')
 
 		QUnit.test('parent()/addChild()', function (assert) {
-			var root = Node.create()
-			var n1 = Node.create()
-			var n2 = Node.create()
-			var n3 = Node.create()
+			var root = TreeNode.create()
+			var n1 = TreeNode.create()
+			var n2 = TreeNode.create()
+			var n3 = TreeNode.create()
 			root.addChild(n1, n2)
 			n2.addChild(n3)
 
@@ -126,10 +131,10 @@ define(function () {
 		})
 
 		QUnit.test('children()/addChildAt()', function (assert) {
-			var root = Node.create()
-			var n0 = Node.create()
-			var n1 = Node.create()
-			var n2 = Node.create()
+			var root = TreeNode.create()
+			var n0 = TreeNode.create()
+			var n1 = TreeNode.create()
+			var n2 = TreeNode.create()
 			root.addChild(n1)
 			root.addChildAt(1, n2)
 			root.addChildAt(0, n0)
@@ -141,10 +146,10 @@ define(function () {
 		})
 
 		QUnit.test('appendBrother()', function (assert) {
-			var root = Node.create()
-			var n0 = Node.create()
-			var n1 = Node.create()
-			var n2 = Node.create()
+			var root = TreeNode.create()
+			var n0 = TreeNode.create()
+			var n1 = TreeNode.create()
+			var n2 = TreeNode.create()
 			root.addChild(n0)
 			root.addChild(n2)
 			n0.appendBrother(n1)
@@ -156,10 +161,10 @@ define(function () {
 		})
 
 		QUnit.test('isSameStructure()', function (assert) {
-			var root = Node.create()
-			var n0 = Node.create()
-			var n1 = Node.create()
-			var n2 = Node.create()
+			var root = TreeNode.create()
+			var n0 = TreeNode.create()
+			var n1 = TreeNode.create()
+			var n2 = TreeNode.create()
 			root.addChild(n0)
 			root.addChild(n1)
 			n1.addChild(n2)
@@ -170,5 +175,5 @@ define(function () {
 	}
 
 
-	return Node
+	return TreeNode
 })

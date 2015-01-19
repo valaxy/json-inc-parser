@@ -1,21 +1,48 @@
 define(function (require) {
-	var Node = require('./node')
+	var TreeNode = require('./node')
+	var LinkedNode = require('bower_components/linked-list/src/linked-node')
+	var Role = require('../rule/role')
+
 
 	var PartNode = function () {
-		this._role = null
-		this._parent = null
-		this._children = []
+		TreeNode.call(this)
+		LinkedNode.call(this)
+		this._role = null // null 时表示根节点
+		this._state = PartNode.STATE_NOTSURE
 	}
 
-	_.extend(PartNode.prototype, Node.prototype)
+	PartNode.STATE_RIGHT = 1
+	PartNode.STATE_WRONG = 2
+	PartNode.STATE_NOTSURE = 3
+
+	// extend TreeNode function
+	_.extend(PartNode.prototype, TreeNode.prototype)
+
+	// extend LinkedNode function
+	_.extend(PartNode.prototype, LinkedNode.prototype)
 
 
 	PartNode.create = function (role) {
-		var node = new PartNode()
+		var node = new PartNode
 		node._role = role
 		return node
 	}
 
+	PartNode.createRoot = function (part) {
+		var role = new Role
+		role.init(-1, part, [], true) // unique role for the only root node
+		var node = new PartNode(role)
+		return node
+	}
+
+	PartNode.createNotSure = function () {
+		return new PartNode
+	}
+
+
+	PartNode.prototype.state = function () {
+		return this._state
+	}
 
 	// 生成一条从当前节点指向token的路径, token没有被加入任何结构
 	// 根据[有效后继角色表]来生成

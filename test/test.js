@@ -7,5 +7,7 @@ define(function (require, exports) {
 
 		require('src/rule/json-rule/json-rule')
 		require('./json')
+
+		require('./json/ast')
 	}
 })

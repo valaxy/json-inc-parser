@@ -53,7 +53,7 @@ define(function (require) {
 		var root = PartNode.create(rule.value.roles[3])
 		var n0 = PartNode.create(rule.object.roles[1])
 		root.addChild(n0)
-		
+
 		var leaf = n0.astAppendNextLeaf(Token.create(Token.Type.STRING))
 		assert.equal(leaf._role, rule.member.roles[1])
 
@@ -95,4 +95,5 @@ define(function (require) {
 
 		assert.ok(root.isSameStructure(object1))
 	})
+
 })
