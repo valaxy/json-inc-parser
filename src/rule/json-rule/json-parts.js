@@ -41,8 +41,9 @@ define(function (require, exports) {
 			[11, false, [null, null, null, null, null, rule.object.roles[1]]],
 			[12, false, [null, null, null, null, rule.member.roles[1]]],
 			[13, false, [null, null, null, null, null, null, null, null, null, rule.array.roles[1]]],
-			[14, false, [null, rule.value.roles[1], rule.value.roles[2], rule.value.roles[5],
-				rule.value.roles[6], rule.value.roles[3], null, null, null, rule.value.roles[4]]]
+			[14, false, [null, rule.value.roles[1], rule.value.roles[2], rule.value.roles[5], // 0~3
+				rule.value.roles[6], [rule.value.roles[3], rule.object.roles[1]], null, null, // 4~7
+				null, [rule.value.roles[4], rule.array.roles[1]]]] // 8~9
 		])
 	}
 })
