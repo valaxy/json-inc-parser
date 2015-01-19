@@ -1,5 +1,5 @@
 define(function (require) {
-	var TreeNode = require('bower_components/tree/src/array-node')
+	var TreeNode = require('bower_components/tree/src/linked-node')
 	var LinkedListNode = require('bower_components/linked-list/src/linked-node')
 	var Role = require('../rule/role')
 
@@ -9,17 +9,20 @@ define(function (require) {
 		LinkedListNode.call(this)
 		this._role = null // null 时表示根节点
 		this._state = PartNode.STATE_NOTSURE
+		this._terminalLink = null
 	}
 
 	PartNode.STATE_RIGHT = 1
 	PartNode.STATE_WRONG = 2
 	PartNode.STATE_NOTSURE = 3
 
-	// extend TreeNode function
-	_.extend(PartNode.prototype, TreeNode.prototype)
 
-	// extend LinkedNode function
-	_.extend(PartNode.prototype, LinkedListNode.prototype)
+	// extend TreeNode function
+	var prototype = new TreeNode
+	delete prototype._parent
+	delete prototype._childList
+	delete prototype._linked
+	PartNode.prototype = prototype
 
 
 	PartNode.create = function (role) {
@@ -28,21 +31,10 @@ define(function (require) {
 		return node
 	}
 
-	PartNode.createRoot = function (part) {
-		var role = new Role
-		role.init(-1, part, [], true) // unique role for the only root node
-		var node = new PartNode(role)
-		return node
-	}
-
 	PartNode.createNotSure = function () {
 		return new PartNode
 	}
 
-
-	PartNode.prototype.state = function () {
-		return this._state
-	}
 
 	// 生成一条从当前节点指向token的路径, token没有被加入任何结构
 	// 根据[有效后继角色表]来生成
@@ -89,6 +81,34 @@ define(function (require) {
 		}
 	}
 
+
+	PartNode.prototype.state = function () {
+		return this._state
+	}
+
+	PartNode.prototype.linkRightTo = function (linkedList, rightTerminal) {
+		var rightLink = linkedList.insertAfter(this._terminalLink, new LinkedListNode)
+		rightTerminal._terminalLink = rightLink
+		rightLink._terminal = rightTerminal
+	}
+
+
+	// 节点加入链表, 成为第一个节点
+	PartNode.prototype.addToList = function (list) {
+		var link = list.addLast(new LinkedListNode)
+		this._terminalLink = link
+		link._terminal = this
+	}
+
+	PartNode.prototype.nextTerminal = function () {
+		var nextLink = this._terminalLink.next()
+		return nextLink ? nextLink._terminal : null
+	}
+
+	PartNode.prototype.prevTerminal = function () {
+		var prevLink = this._terminalLink.prev()
+		return prevLink ? prevLink._terminal : null
+	}
 
 	return PartNode
 })

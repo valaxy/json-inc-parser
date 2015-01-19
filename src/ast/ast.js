@@ -1,11 +1,14 @@
 define(function (require) {
 	var PartNode = require('./part-node')
 	var Role = require('../rule/role')
+	var LinkedList = require('bower_components/linked-list/src/linked-list')
 
 	var Ast = function (rootPart, headRole) {
 		this._root = this._createRoot(rootPart)
 		this._headNode = PartNode.create(headRole)
 		this._root.addChildLast(this._headNode)
+		this._terminalList = new LinkedList
+		this._headNode.addToList(this._terminalList)
 	}
 
 	Ast.prototype._createRoot = function (rootPart) {
@@ -15,42 +18,44 @@ define(function (require) {
 		return root
 	}
 
+
 	Ast.prototype._maintain = function (prev, node) {
 
 	}
 
-	/**
-	 *
-	 * @param prev 可以为null, 表示添加第一个节点
-	 * @param token
-	 */
-	Ast.prototype.appendTokenAfter = function (prev, token) {
-		if (!prev) {
-			if (this._beginPart.succ(token)) {
-				var root = PartNode.createRoot
-				root._completePath(token)
-			}
-		}
+
+	Ast.prototype.beginTokenNode = function () {
+		return this._headNode
+	}
+
+	Ast.prototype.rootNode = function () {
+		return this._root
+	}
 
 
-		var notSureFlag = false
-		if (prev.state() == PartNode.STATE_NOTSURE) {
-			notSureFlag = true
-		} else { // right or wrong
-			var nextNode = prev.astAppendNextLeaf(token)
-			if (nextNode) {
-				nextNode._state = PartNode.STATE_RIGHT
-			} else {
-				notSureFlag = true
-			}
-		}
+	Ast.prototype.appendNextToken = function (prevTokenNode, token) {
+		var nextNode = prevTokenNode.astAppendNextLeaf(token)
+		prevTokenNode.linkRightTo(this._terminalList, nextNode)
+		return nextNode
 
-		if (notSureFlag) {
-			var orignalNext = prev.next()
-			var nextNode = PartNode.createNotSure()
-			prev.setNext(nextNode)
-			nextNode.setNext(orignalNext)
-		}
+		//var notSureFlag = false
+		//if (prevTokenNode.state() == PartNode.STATE_NOTSURE) {
+		//	notSureFlag = true
+		//} else { // right or wrong
+		//	var nextNode = prevTokenNode.astAppendNextLeaf(token)
+		//	if (nextNode) {
+		//		nextNode._state = PartNode.STATE_RIGHT
+		//	} else {
+		//		notSureFlag = true
+		//	}
+		//}
+		//
+		//if (notSureFlag) {
+		//	var nextNode = PartNode.createNotSure()
+		//}
+		//
+		//prevTokenNode.linkRightTo(this._terminalList, nextNode)
+		//return nextNode
 	}
 
 

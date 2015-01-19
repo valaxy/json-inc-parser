@@ -5,8 +5,8 @@ define(function (require, exports) {
 		require('src/editor/editor')
 
 		require('src/rule/json-rule/json-rule')
-		require('./json')
 
+		require('./json/json')
 		require('./json/ast')
 	}
 })
