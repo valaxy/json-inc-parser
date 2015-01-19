@@ -5,7 +5,7 @@ define(function (require) {
 	var Ast = function (rootPart, headRole) {
 		this._root = this._createRoot(rootPart)
 		this._headNode = PartNode.create(headRole)
-		this._root.addChild(this._headNode)
+		this._root.addChildLast(this._headNode)
 	}
 
 	Ast.prototype._createRoot = function (rootPart) {

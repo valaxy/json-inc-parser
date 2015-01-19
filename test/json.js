@@ -3,7 +3,7 @@ define(function (require) {
 	var rule = require('src/rule/rule')
 
 	var Token = require('src/model/token')
-	var Node = require('src/ast/node')
+	var Node = require('bower_components/tree/src/array-node')
 	var PartNode = require('src/ast/part-node')
 
 	json.bind()
@@ -41,8 +41,7 @@ define(function (require) {
 		var root = PartNode.create(rule.object.roles[2])
 		var n1 = PartNode.create(rule.member.roles[1])
 		var n2 = PartNode.create(rule.member.roles[2])
-		root.addChild(n1)
-		root.addChild(n2)
+		root.addChildLast(n1, n2)
 
 		var n3 = n2.astAppendNextLeaf(Token.create(Token.Type.STRING))
 		assert.equal(n3._role, rule.value.roles[6])
@@ -52,7 +51,7 @@ define(function (require) {
 		// object -> { "n1": { "n4": 6 } }
 		var root = PartNode.create(rule.value.roles[3])
 		var n0 = PartNode.create(rule.object.roles[1])
-		root.addChild(n0)
+		root.addChildLast(n0)
 
 		var leaf = n0.astAppendNextLeaf(Token.create(Token.Type.STRING))
 		assert.equal(leaf._role, rule.member.roles[1])
@@ -86,12 +85,12 @@ define(function (require) {
 		// object2 -> { member2 }
 		// member2 -> "n4" : value2
 		// value2  -> 6
-		var value2 = Node.create().addChild(Node.create())
-		var member2 = Node.create().addChild(Node.create(), Node.create(), value2)
-		var object2 = Node.create().addChild(Node.create(), member2, Node.create())
-		var value1 = Node.create().addChild(object2)
-		var member1 = Node.create().addChild(Node.create(), Node.create(), value1)
-		var object1 = Node.create().addChild(Node.create(), member1, Node.create())
+		var value2 = Node.create().addChildLast(Node.create())
+		var member2 = Node.create().addChildLast(Node.create(), Node.create(), value2)
+		var object2 = Node.create().addChildLast(Node.create(), member2, Node.create())
+		var value1 = Node.create().addChildLast(object2)
+		var member1 = Node.create().addChildLast(Node.create(), Node.create(), value1)
+		var object1 = Node.create().addChildLast(Node.create(), member1, Node.create())
 
 		assert.ok(root.isSameStructure(object1))
 	})

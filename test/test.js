@@ -1,6 +1,5 @@
 define(function (require, exports) {
 	exports.init = function () {
-		require('src/ast/node')
 		require('src/rule/part')
 		require('src/rule/role')
 		require('src/editor/editor')

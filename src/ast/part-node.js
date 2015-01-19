@@ -1,12 +1,12 @@
 define(function (require) {
-	var TreeNode = require('./node')
-	var LinkedNode = require('bower_components/linked-list/src/linked-node')
+	var TreeNode = require('bower_components/tree/src/array-node')
+	var LinkedListNode = require('bower_components/linked-list/src/linked-node')
 	var Role = require('../rule/role')
 
 
 	var PartNode = function () {
 		TreeNode.call(this)
-		LinkedNode.call(this)
+		LinkedListNode.call(this)
 		this._role = null // null 时表示根节点
 		this._state = PartNode.STATE_NOTSURE
 	}
@@ -19,7 +19,7 @@ define(function (require) {
 	_.extend(PartNode.prototype, TreeNode.prototype)
 
 	// extend LinkedNode function
-	_.extend(PartNode.prototype, LinkedNode.prototype)
+	_.extend(PartNode.prototype, LinkedListNode.prototype)
 
 
 	PartNode.create = function (role) {
@@ -57,7 +57,7 @@ define(function (require) {
 		while (true) {
 			var nextRole = current._role.part().succ(token)
 			var child = PartNode.create(nextRole)
-			current.addChild(child)
+			current.addChildLast(child)
 			current = child
 			if (nextRole.part().isTerminal()) {
 				break
@@ -80,7 +80,7 @@ define(function (require) {
 		var brotherRole = this._role.next(token)
 		if (brotherRole) {
 			var brother = PartNode.create(brotherRole)
-			this.appendBrother(brother)
+			this.appendRightBrother(brother)
 			return brother._completePath(token)
 		} else if (this._role.isEnd()) {
 			return this.parent().astAppendNextLeaf(token)

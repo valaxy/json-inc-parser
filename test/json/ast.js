@@ -3,7 +3,6 @@ define(function (require) {
 	var rule = require('src/rule/rule')
 
 	var Token = require('src/model/token')
-	var Node = require('src/ast/node')
 	var PartNode = require('src/ast/part-node')
 	var Ast = require('src/ast/ast')
 
