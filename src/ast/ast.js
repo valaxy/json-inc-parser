@@ -4,11 +4,11 @@ define(function (require) {
 	var LinkedList = require('bower_components/linked-list/src/linked-list')
 
 	var Ast = function (rootPart, headRole) {
-		this._root = this._createRoot(rootPart)
+		this._rootNode = this._createRoot(rootPart)
 		this._headNode = PartNode.create(headRole)
-		this._root.addChildLast(this._headNode)
-		this._terminalList = new LinkedList
-		this._headNode.addToList(this._terminalList)
+		this._rootNode.addChildLast(this._headNode)
+		//this._terminalList = new LinkedList
+		//this._headNode.addToList(this._terminalList)
 	}
 
 	Ast.prototype._createRoot = function (rootPart) {
@@ -29,13 +29,13 @@ define(function (require) {
 	}
 
 	Ast.prototype.rootNode = function () {
-		return this._root
+		return this._rootNode
 	}
 
 
 	Ast.prototype.appendNextToken = function (prevTokenNode, token) {
 		var nextNode = prevTokenNode.astAppendNextLeaf(token)
-		prevTokenNode.linkRightTo(this._terminalList, nextNode)
+		//prevTokenNode.linkRightTo(this._terminalList, nextNode)
 		return nextNode
 
 		//var notSureFlag = false

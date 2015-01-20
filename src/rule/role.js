@@ -37,6 +37,7 @@ define(function () {
 		this._part = part
 		this._next = next
 		this._isEnd = isEnd
+		return this
 	}
 
 
